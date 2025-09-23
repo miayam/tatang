@@ -14,7 +14,7 @@ export default function Login({
     <div className='min-h-screen flex items-center justify-center bg-gray-50'>
       <div className='max-w-md w-full space-y-8'>
         <div>
-          <h2 className='mt-6 text-center text-3xl font-extrabold text-gray-900'>
+          <h2 className='text-center text-3xl font-extrabold text-gray-900'>
             Welcome to Binder
           </h2>
         </div>
@@ -74,7 +74,7 @@ export default function Login({
         </form>
 
         <div className='mt-6 p-4 bg-gray-900 rounded-md'>
-          <h3 className='font-medium text-white'>Demo Accounts:</h3>
+          <h3 className='font-bold text-white text-lg'>Demo Accounts:</h3>
           <div className='mt-2 text-sm text-gray-200'>
             <p>
               <strong>alice@demo.com</strong> / password123
