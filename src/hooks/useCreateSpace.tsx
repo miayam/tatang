@@ -3,7 +3,7 @@ import { useRouter } from 'next/navigation';
 import { useState, useTransition } from 'react';
 import { useForm } from 'react-hook-form';
 
-import { createSpace } from '@/app/actions/space';
+import createSpace from '@/app/actions/createSpace';
 import { CreateSpaceData, CreateSpaceSchema } from '@/schemas/createSpace';
 
 export default function useCreateSpace(

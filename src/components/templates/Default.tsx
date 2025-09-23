@@ -8,7 +8,7 @@ interface IDefault {
 function Default({ children, sidebar }: IDefault) {
   return (
     <div className='grid h-screen grid-cols-[25rem_auto]'>
-      <aside className='border-r border-gray-100 bg-gray-100 relative'>
+      <aside className='border-r border-gray-300 bg-gray-50 relative'>
         {sidebar}
       </aside>
       <main className='polkadot'>{children}</main>
