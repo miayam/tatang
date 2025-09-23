@@ -12,6 +12,7 @@
 .next
 /.next/
 /out/
+/generated/prisma
 
 # production
 /build
