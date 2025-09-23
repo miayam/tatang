@@ -26,7 +26,7 @@ export default function Login({
                 {...register('email')}
                 type='text'
                 className={`relative block w-full px-3 py-2 border ${
-                  errors.email ? 'border-gray-700' : 'border-gray-300'
+                  errors.email ? 'border-red-600' : 'border-gray-300'
                 } placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-gray-700 focus:border-gray-700 sm:text-sm`}
                 placeholder='Email'
                 disabled={isPending}
@@ -43,7 +43,7 @@ export default function Login({
                 {...register('password')}
                 type='password'
                 className={`relative block w-full px-3 py-2 border ${
-                  errors.password ? 'border-gray-700' : 'border-gray-300'
+                  errors.password ? 'border-red-600' : 'border-gray-300'
                 } placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-gray-700 focus:border-gray-500 sm:text-sm`}
                 placeholder='Password'
                 disabled={isPending}
