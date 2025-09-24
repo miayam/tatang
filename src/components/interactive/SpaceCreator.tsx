@@ -16,7 +16,7 @@ export default function SpaceCreator() {
       <DialogTrigger asChild>
         <button
           type='button'
-          className='rounded-full bg-black border-gray-t00 p-3 cursor-pointer bottom-5 right-5 absolute shadow'
+          className='rounded-full shadow-md bg-black border-gray-t00 p-3 cursor-pointer bottom-5 right-5 absolute'
         >
           <AiOutlinePlus size={30} color='white' />
         </button>
