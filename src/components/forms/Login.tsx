@@ -8,7 +8,6 @@ export default function Login({
   handleSubmit,
   errors,
   isPending,
-  submitError,
 }: ILogin) {
   return (
     <div className='min-h-screen flex items-center justify-center bg-gray-50'>
@@ -55,12 +54,6 @@ export default function Login({
               )}
             </div>
           </div>
-
-          {submitError && (
-            <div className='text-red-600 text-sm text-center bg-red-50 p-3 rounded-md'>
-              {submitError}
-            </div>
-          )}
 
           <div>
             <button

@@ -4,6 +4,15 @@ const nextConfig = {
     dirs: ['src'],
   },
 
+  async rewrites() {
+    return [
+      {
+        source: '/',
+        destination: '/spaces',
+      },
+    ];
+  },
+
   reactStrictMode: true,
 
   // Uncoment to add domain whitelist
