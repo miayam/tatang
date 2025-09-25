@@ -1,13 +1,18 @@
-import { useVirtualizer } from '@tanstack/react-virtual';
-import { useEffect, useMemo, useRef } from 'react';
 import { useInfiniteQuery } from '@tanstack/react-query';
+import { useVirtualizer } from '@tanstack/react-virtual';
 import { usePathname } from 'next/navigation';
+import { useEffect, useRef } from 'react';
 
 async function getSpaces(cursor: string | undefined, limit: number) {
-  const params = cursor
-    ? `?cursor=${cursor}&limit=${limit}`
-    : `?limit=${limit}`;
-  const response = await fetch(`/api/spaces/${params}`);
+  const params = new URLSearchParams({
+    limit: limit.toString(),
+  });
+
+  if (cursor) {
+    params.append('cursor', cursor);
+  }
+
+  const response = await fetch(`/api/spaces/?${params.toString()}`);
   const data = await response.json();
   return data;
 }
@@ -21,7 +26,7 @@ export default function useSpaceList() {
     fetchNextPage,
     hasNextPage,
   } = useInfiniteQuery({
-    queryKey: ['projects'],
+    queryKey: ['spaces'],
     queryFn: (ctx) => getSpaces(ctx.pageParam || undefined, 10),
     getNextPageParam: (lastGroup) => lastGroup.nextCursor,
     initialPageParam: undefined,

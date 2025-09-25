@@ -1,6 +1,6 @@
-// app/api/spaces/[id]/messages/route.ts
-import { NextRequest, NextResponse } from 'next/server';
 import { PrismaClient } from '@prisma/client';
+import { NextRequest, NextResponse } from 'next/server';
+
 import { getSession } from '@/lib/session';
 
 const prisma = new PrismaClient();

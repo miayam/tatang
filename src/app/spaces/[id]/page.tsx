@@ -1,11 +1,12 @@
 'use client';
 
 import logout from '@/app/actions/logout';
+import Messages from '@/features/Messages';
 
 export default function Page() {
   return (
     <main>
-      <section className='grid place-content-center h-full'>
+      <section>
         <h1 className='text-5xl font-bold'>Space</h1>
         <button
           onClick={() => logout()}
@@ -14,6 +15,7 @@ export default function Page() {
         >
           Logout
         </button>
+        <Messages />
       </section>
     </main>
   );

@@ -1,8 +1,8 @@
-import { UseSpaceList } from '@/hooks/useSpaceList';
 import clsx from 'clsx';
 import Link from 'next/link';
-
 import { AiOutlineUsergroupAdd } from 'react-icons/ai';
+
+import { UseSpaceList } from '@/hooks/useSpaceList';
 
 type ISpaceList = UseSpaceList;
 
@@ -71,7 +71,7 @@ export default function SpaceList({
                           ? hasNextPage
                             ? 'Loading more...'
                             : 'Nothing more to load'
-                          : post.name}
+                          : post?.name}
                       </span>
                       <span className='text-sm text-ellipsis truncate w-[18rem]'>
                         {post?.description}

@@ -1,4 +1,5 @@
 import useSpaceList from '@/hooks/useSpaceList';
+
 import Component from '@/components/interactive/SpaceList';
 
 export default function SpaceList() {
