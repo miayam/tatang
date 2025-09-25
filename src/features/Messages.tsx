@@ -45,14 +45,21 @@ export default function Messages() {
     fetchNextPage,
     hasNextPage,
   } = useInfiniteQuery({
-    queryKey: ['messages'],
+    queryKey: [`messages-${params?.id}`],
     queryFn: (ctx) =>
       getMessages(ctx.pageParam || undefined, params.id as string, 10),
     getNextPageParam: (lastGroup) => lastGroup.nextCursor,
     initialPageParam: undefined,
   });
 
-  const allRows = data ? data.pages.flatMap((d) => d.messages) : [];
+  const allRows = data
+    ? data.pages
+        .flatMap((d) => d.messages)
+        .sort(
+          (a, b) =>
+            new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime()
+        )
+    : [];
 
   // The virtualizer
   const rowVirtualizer = useVirtualizer({
@@ -64,24 +71,6 @@ export default function Messages() {
       onChange(...args);
     },
   });
-
-  useEffect(() => {
-    const [lastItem] = [...rowVirtualizer.getVirtualItems()];
-
-    if (!lastItem) {
-      return;
-    }
-
-    if (!hasNextPage) {
-      return;
-    }
-  }, [
-    hasNextPage,
-    fetchNextPage,
-    allRows.length,
-    isFetchingNextPage,
-    rowVirtualizer.getVirtualItems(),
-  ]);
 
   const { onChange, keepBottomDistance } =
     useKeepBottomDistance(rowVirtualizer);
@@ -148,7 +137,7 @@ export default function Messages() {
                 position: 'absolute',
                 top: 0,
                 left: 0,
-                minHeight: '100px',
+                height: '100px',
                 width: '100%',
                 transform: `translateY(${virtualItem.start}px)`,
                 borderBottom: '1px solid red',
