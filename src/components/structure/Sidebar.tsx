@@ -2,9 +2,8 @@
 
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 
-import SpaceCreator from '@/components/interactive/SpaceCreator';
-
 import SpaceList from '@/features/SpaceList';
+import CreateSpace from '@/features/CreateSpace';
 
 const queryClient = new QueryClient();
 
@@ -13,7 +12,7 @@ function Sidebar() {
     <QueryClientProvider client={queryClient}>
       <div className='flex flex-col overflow-auto text-lg'>
         <SpaceList />
-        <SpaceCreator />
+        <CreateSpace />
       </div>
     </QueryClientProvider>
   );

@@ -26,7 +26,7 @@ export default function useLogin() {
       const result = await login(data);
 
       if (result.success) {
-        router.push('/');
+        router.push('/spaces');
         router.refresh();
       } else {
         toast.error(result.error || 'Login failed');

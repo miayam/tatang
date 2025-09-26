@@ -1,17 +1,20 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useRouter } from 'next/navigation';
-import { useTransition } from 'react';
+import { useState, useTransition } from 'react';
 import { useForm } from 'react-hook-form';
 import toast from 'react-hot-toast';
 
 import createSpace from '@/app/actions/createSpace';
 import { CreateSpaceData, CreateSpaceSchema } from '@/schemas/createSpace';
+import useSpaceList from './useSpaceList';
 
 export default function useCreateSpace(
   onSuccess?: (space: any) => void,
   onCancel?: () => void
 ) {
+  const [open, setOpen] = useState(false);
   const [isPending, startTransition] = useTransition();
+  const { refetch: refetchSpaceList } = useSpaceList();
   const router = useRouter();
 
   const {
@@ -38,6 +41,8 @@ export default function useCreateSpace(
         } else {
           router.push(`/spaces/${result.data?.id}`);
           router.refresh();
+          await refetchSpaceList();
+          setOpen(false);
         }
       } else {
         toast.error(result.error || 'Failed to create space');
@@ -46,6 +51,8 @@ export default function useCreateSpace(
   };
 
   return {
+    open,
+    setOpen,
     isPending,
     onSubmit,
     register,

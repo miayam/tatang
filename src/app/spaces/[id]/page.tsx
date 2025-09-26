@@ -1,7 +1,7 @@
 'use client';
 
 import logout from '@/app/actions/logout';
-import Messages from '@/features/Messages';
+import MessageList from '@/features/MessageList';
 
 export default function Page() {
   return (
@@ -15,7 +15,7 @@ export default function Page() {
         >
           Logout
         </button>
-        <Messages />
+        <MessageList />
       </section>
     </main>
   );

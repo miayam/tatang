@@ -23,6 +23,7 @@ export default function useSpaceList() {
     data,
     error,
     isFetchingNextPage,
+    refetch,
     fetchNextPage,
     hasNextPage,
   } = useInfiniteQuery({
@@ -71,6 +72,7 @@ export default function useSpaceList() {
     error,
     allRows,
     hasNextPage,
+    refetch,
     status,
     rowVirtualizer,
     parentRef,
