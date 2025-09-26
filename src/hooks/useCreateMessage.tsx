@@ -8,6 +8,8 @@ import {
   CreateMessageData,
   CreateMessageSchema,
 } from '@/schemas/createMessage';
+import useMessageList from './useMessageList';
+import { queryClient } from '@/lib/queryClient';
 
 export default function useCreateMessage() {
   const [isPending, startTransition] = useTransition();
@@ -35,11 +37,14 @@ export default function useCreateMessage() {
 
       if (!result.ok) {
         toast.error(`Response status: ${result.status}`);
+        return;
       }
 
-      const response = await result.json();
       reset();
-      console.log(response);
+      queryClient.invalidateQueries({
+        queryKey: [`messages-${params.id}`],
+        refetchType: 'active',
+      });
     });
   };
 

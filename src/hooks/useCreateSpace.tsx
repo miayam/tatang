@@ -7,7 +7,7 @@ import toast from 'react-hot-toast';
 import createSpace from '@/app/actions/createSpace';
 import { CreateSpaceData, CreateSpaceSchema } from '@/schemas/createSpace';
 
-import useSpaceList from './useSpaceList';
+import { queryClient } from '@/lib/queryClient';
 
 export default function useCreateSpace(
   onSuccess?: (space: any) => void,
@@ -15,7 +15,6 @@ export default function useCreateSpace(
 ) {
   const [open, setOpen] = useState(false);
   const [isPending, startTransition] = useTransition();
-  const { refetch: refetchSpaceList } = useSpaceList();
   const router = useRouter();
 
   const {
@@ -42,7 +41,10 @@ export default function useCreateSpace(
         } else {
           router.push(`/spaces/${result.data?.id}`);
           router.refresh();
-          await refetchSpaceList();
+          queryClient.invalidateQueries({
+            queryKey: ['spaces'],
+            refetchType: 'active',
+          });
           setOpen(false);
         }
       } else {

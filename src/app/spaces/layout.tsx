@@ -4,7 +4,7 @@ import { Toaster } from 'react-hot-toast';
 
 import Sidebar from '@/components/structure/Sidebar';
 import Default from '@/components/templates/Default';
-const queryClient = new QueryClient();
+import { queryClient } from '@/lib/queryClient';
 
 export default function RootLayout({
   children,

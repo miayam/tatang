@@ -20,7 +20,7 @@ export default function MessageList({
         ref={parentRef}
         style={{
           width: '400px',
-          height: `400px`,
+          height: '70vh',
           overflow: 'auto', // Make it scroll!
         }}
       >
@@ -42,7 +42,7 @@ export default function MessageList({
                   position: 'absolute',
                   top: 0,
                   left: 0,
-                  height: '100px',
+                  minHeight: '100px',
                   width: '100%',
                   transform: `translateY(${virtualItem.start}px)`,
                   borderBottom: '1px solid red',

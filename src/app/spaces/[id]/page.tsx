@@ -8,7 +8,6 @@ export default function Page() {
   return (
     <main>
       <section>
-        <h1 className='text-5xl font-bold'>Space</h1>
         <button
           onClick={() => logout()}
           type='button'

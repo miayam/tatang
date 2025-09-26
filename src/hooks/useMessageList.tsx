@@ -30,6 +30,8 @@ export default function useMessageList() {
         )
     : [];
 
+  console.log(allRows, data);
+
   // The virtualizer
   const rowVirtualizer = useVirtualizer({
     count: allRows.length,
