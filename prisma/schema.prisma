@@ -1,14 +1,3 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
-// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
-// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
-// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
-// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
-
 generator client {
   provider = "prisma-client-js"
 }
@@ -19,44 +8,36 @@ datasource db {
 }
 
 model User {
-  id           String   @id @default(cuid())
-  username     String   @unique
-  email        String   @unique
-  passwordHash String // Hashed password (never store plain text)
-  createdAt    DateTime @default(now())
-  updatedAt    DateTime @updatedAt
-
-  // Relations
-  createdSpaces Space[]       @relation("SpaceCreator")
-  memberships   SpaceMember[]
+  id            String        @id @default(cuid())
+  username      String        @unique
+  email         String        @unique
+  createdAt     DateTime      @default(now())
+  updatedAt     DateTime      @updatedAt
+  passwordHash  String
   messages      Message[]
   notes         Note[]
+  memberships   SpaceMember[]
+  createdSpaces Space[]       @relation("SpaceCreator")
 
-  // Constraints
   @@index([email])
   @@index([username])
   @@map("users")
 }
 
 model Space {
-  id          String   @id @default(cuid())
+  id          String        @id @default(cuid())
   name        String
   description String?
-  inviteCode  String   @unique @default(cuid())
-  isActive    Boolean  @default(true)
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  inviteCode  String        @unique @default(cuid())
+  isActive    Boolean       @default(true)
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
+  createdBy   String
+  messages    Message[]
+  notes       Note[]
+  members     SpaceMember[]
+  creator     User          @relation("SpaceCreator", fields: [createdBy], references: [id])
 
-  // Foreign Keys
-  createdBy String
-  creator   User   @relation("SpaceCreator", fields: [createdBy], references: [id])
-
-  // Relations
-  members  SpaceMember[]
-  messages Message[]
-  notes    Note[]
-
-  // Constraints
   @@index([createdBy, createdAt(sort: Desc)])
   @@index([isActive, createdAt(sort: Desc)])
   @@map("spaces")
@@ -68,42 +49,32 @@ model SpaceMember {
   userId      String
   roleInSpace SpaceRole @default(MEMBER)
   joinedAt    DateTime  @default(now())
+  space       Space     @relation(fields: [spaceId], references: [id], onDelete: Cascade)
+  user        User      @relation(fields: [userId], references: [id], onDelete: Cascade)
 
-  // Relations
-  space Space @relation(fields: [spaceId], references: [id], onDelete: Cascade)
-  user  User  @relation(fields: [userId], references: [id], onDelete: Cascade)
-
-  // Constraints
-  @@unique([spaceId, userId], name: "unique_space_member") // Prevent duplicate memberships
+  @@unique([spaceId, userId], name: "unique_space_member")
   @@index([spaceId])
   @@index([userId])
   @@map("space_members")
 }
 
 model Message {
-  id          String      @id @default(cuid())
-  content     String
-  messageType MessageType @default(TEXT)
-  threadLevel Int         @default(0)
-  createdAt   DateTime    @default(now())
-
-  // Foreign Keys
+  id              String      @id @default(cuid())
+  content         String
+  messageType     MessageType @default(TEXT)
+  threadLevel     Int         @default(0)
+  createdAt       DateTime    @default(now())
   spaceId         String
   userId          String
   parentMessageId String?
+  parentMessage   Message?    @relation("MessageReplies", fields: [parentMessageId], references: [id])
+  replies         Message[]   @relation("MessageReplies")
+  space           Space       @relation(fields: [spaceId], references: [id], onDelete: Cascade)
+  user            User        @relation(fields: [userId], references: [id])
 
-  // Relations
-  space         Space     @relation(fields: [spaceId], references: [id], onDelete: Cascade)
-  user          User      @relation(fields: [userId], references: [id])
-  parentMessage Message?  @relation("MessageReplies", fields: [parentMessageId], references: [id])
-  replies       Message[] @relation("MessageReplies")
-
-  // Constraints
   @@index([spaceId, createdAt(sort: Desc)])
   @@index([parentMessageId, createdAt])
   @@index([userId])
-  // Custom constraint to prevent more than 2-level threading
-  // This will be handled by a database trigger or application logic
   @@map("messages")
 }
 
@@ -112,22 +83,18 @@ model Note {
   spaceId   String
   createdBy String
   title     String
-  content   String
   isPinned  Boolean  @default(false)
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+  content   Json
+  creator   User     @relation(fields: [createdBy], references: [id])
+  space     Space    @relation(fields: [spaceId], references: [id], onDelete: Cascade)
 
-  // Relations
-  space   Space @relation(fields: [spaceId], references: [id], onDelete: Cascade)
-  creator User  @relation(fields: [createdBy], references: [id])
-
-  // Constraints
   @@index([spaceId, isPinned, createdAt(sort: Desc)])
   @@index([createdBy])
   @@map("notes")
 }
 
-// Space-specific roles only
 enum SpaceRole {
   ADMIN
   MEMBER

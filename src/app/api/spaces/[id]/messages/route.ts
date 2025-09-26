@@ -20,7 +20,7 @@ export async function GET(
       );
     }
 
-    const spaceId = params.id;
+    const spaceId = (await params).id;
     const searchParams = request.nextUrl.searchParams;
     const cursor = searchParams.get('cursor');
     const limit = Math.min(
@@ -227,7 +227,7 @@ export async function POST(
       );
     }
 
-    const spaceId = params.id;
+    const spaceId = (await params).id;
     const body = await request.json();
     const { content, messageType = 'TEXT', parentMessageId } = body;
 
