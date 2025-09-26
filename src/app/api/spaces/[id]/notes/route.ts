@@ -1,5 +1,6 @@
+import { Prisma, PrismaClient } from '@prisma/client';
 import { NextRequest, NextResponse } from 'next/server';
-import { PrismaClient, Prisma } from '@prisma/client';
+
 import { getSession } from '@/lib/session';
 
 const prisma = new PrismaClient();

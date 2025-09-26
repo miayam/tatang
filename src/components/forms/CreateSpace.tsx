@@ -3,6 +3,8 @@
 
 import { AiOutlinePlus } from 'react-icons/ai';
 
+import { UseCreateSpace } from '@/hooks/useCreateSpace';
+
 import {
   Dialog,
   DialogContent,
@@ -10,11 +12,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from '@/components/ui/dialog';
-
-import { UseCreateSpace } from '@/hooks/useCreateSpace';
-
 import { DialogClose, DialogFooter } from '@/components/ui/dialog';
-import { useState } from 'react';
 
 type ICreateSpace = UseCreateSpace;
 

@@ -2,8 +2,8 @@
 
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 
-import SpaceList from '@/features/SpaceList';
 import CreateSpace from '@/features/CreateSpace';
+import SpaceList from '@/features/SpaceList';
 
 const queryClient = new QueryClient();
 

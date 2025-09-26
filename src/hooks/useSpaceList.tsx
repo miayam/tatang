@@ -3,19 +3,7 @@ import { useVirtualizer } from '@tanstack/react-virtual';
 import { usePathname } from 'next/navigation';
 import { useEffect, useRef } from 'react';
 
-async function getSpaces(cursor: string | undefined, limit: number) {
-  const params = new URLSearchParams({
-    limit: limit.toString(),
-  });
-
-  if (cursor) {
-    params.append('cursor', cursor);
-  }
-
-  const response = await fetch(`/api/spaces/?${params.toString()}`);
-  const data = await response.json();
-  return data;
-}
+import { getSpaces } from '@/lib/api';
 
 export default function useSpaceList() {
   const {
