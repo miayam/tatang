@@ -1,3 +1,5 @@
+'use client';
+
 import useCreateSpace from '@/hooks/useCreateSpace';
 
 import Component from '@/components/forms/CreateSpace';

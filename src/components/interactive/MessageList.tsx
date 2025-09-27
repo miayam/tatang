@@ -18,6 +18,7 @@ export default function MessageList({
       <div
         key={params.id?.toString()}
         ref={parentRef}
+        className='flex flex-col justify-end'
         style={{
           width: '400px',
           height: '70vh',

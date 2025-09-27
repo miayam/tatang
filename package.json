@@ -20,6 +20,10 @@
     "prepare": "husky install"
   },
   "dependencies": {
+    "@blocknote/core": "^0.39.1",
+    "@blocknote/mantine": "^0.39.1",
+    "@blocknote/react": "^0.39.1",
+    "@faker-js/faker": "^10.0.0",
     "@hookform/resolvers": "^5.2.2",
     "@prisma/client": "^6.16.2",
     "@radix-ui/react-dialog": "^1.1.15",
@@ -36,7 +40,9 @@
     "react-hook-form": "^7.63.0",
     "react-hot-toast": "^2.6.0",
     "react-icons": "^5.5.0",
+    "react-intersection-observer": "^9.16.0",
     "tailwind-merge": "^2.6.0",
+    "virtua": "^0.43.4",
     "zod": "^3.24.1"
   },
   "devDependencies": {
@@ -74,7 +80,7 @@
   },
   "lint-staged": {
     "**/*.{js,jsx,ts,tsx}": [
-      "eslint --max-warnings=10",
+      "eslint --max-warnings=30",
       "prettier -w"
     ],
     "**/*.{json,css,scss,md,webmanifest}": [

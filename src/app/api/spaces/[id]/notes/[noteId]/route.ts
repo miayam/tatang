@@ -5,7 +5,7 @@ import { getSession } from '@/lib/session';
 
 const prisma = new PrismaClient();
 
-export async function GET_NOTE(
+export async function GET(
   request: NextRequest,
   { params }: { params: { id: string; noteId: string } }
 ) {
@@ -19,7 +19,7 @@ export async function GET_NOTE(
       );
     }
 
-    const { id: spaceId, noteId } = params;
+    const { id: spaceId, noteId } = await params;
 
     // Verify user is member of this space
     const membership = await prisma.spaceMember.findFirst({
@@ -219,7 +219,7 @@ export async function DELETE(
       );
     }
 
-    const { id: spaceId, noteId } = params;
+    const { id: spaceId, noteId } = await params;
 
     // Check if user can delete this note
     const note = await prisma.note.findFirst({

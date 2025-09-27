@@ -1,22 +1,12 @@
 'use client';
 
-import logout from '@/app/actions/logout';
-import CreateMessage from '@/features/CreateMessage';
-import MessageList from '@/features/MessageList';
+import MessageList2 from '@/features/MessageList2';
 
 export default function Page() {
   return (
     <main>
       <section>
-        <button
-          onClick={() => logout()}
-          type='button'
-          className='underline cursor-pointer'
-        >
-          Logout
-        </button>
-        <MessageList />
-        <CreateMessage />
+        <MessageList2 />
       </section>
     </main>
   );
