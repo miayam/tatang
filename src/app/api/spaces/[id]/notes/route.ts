@@ -122,7 +122,7 @@ export async function POST(
       );
     }
 
-    const spaceId = params.id;
+    const spaceId = (await params).id;
     const body = await request.json();
     const { title, content, isPinned = false } = body;
 

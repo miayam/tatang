@@ -61,10 +61,11 @@ export default function useMessageList() {
   useEffect(() => {
     if (!autoScrolledToBottomRef.current) return;
     if (firstItem?.index === 0) fetchNextPage();
-  }, [fetchNextPage, firstItem]);
+  }, [firstItem]);
 
   // scroll to bottom when initial data loaded
   useLayoutEffect(() => {
+    console.log('debug');
     if (allRows.length === 0 || autoScrolledToBottomRef.current) return;
     rowVirtualizer.scrollToIndex(allRows.length - 1, { align: 'end' });
     setTimeout(() => {

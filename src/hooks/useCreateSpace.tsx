@@ -4,10 +4,10 @@ import { useState, useTransition } from 'react';
 import { useForm } from 'react-hook-form';
 import toast from 'react-hot-toast';
 
+import { queryClient } from '@/lib/queryClient';
+
 import createSpace from '@/app/actions/createSpace';
 import { CreateSpaceData, CreateSpaceSchema } from '@/schemas/createSpace';
-
-import { queryClient } from '@/lib/queryClient';
 
 export default function useCreateSpace(
   onSuccess?: (space: any) => void,

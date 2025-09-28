@@ -21,13 +21,12 @@ export default function CreateSpace({
   setOpen,
   isPending,
   errors,
-  onCancel,
   register,
   onSubmit,
   handleSubmit,
 }: ICreateSpace) {
   return (
-    <Dialog open={open}>
+    <Dialog open={open} onOpenChange={() => setOpen(!open)}>
       <DialogTrigger asChild>
         <button
           type='button'
@@ -100,7 +99,7 @@ export default function CreateSpace({
                 <button
                   type='button'
                   className='cursor-pointer py-2  w-full flex justify-center items-center border border-gray-800 rounded-md px-4'
-                  onClick={onCancel}
+                  onClick={() => setOpen(false)}
                 >
                   Cancel
                 </button>

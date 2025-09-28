@@ -58,7 +58,9 @@ export default function SpaceList({
                     className={clsx({
                       'flex h-full justify-start items-center gap-4 px-2': true,
                       'px-4 py-3 font-sans': true,
-                      'bg-black text-white': pathname === `/spaces/${post?.id}`,
+                      'bg-black text-white': pathname.includes(
+                        `/spaces/${post?.id}`
+                      ),
                     })}
                     href={`/spaces/${post?.id}`}
                   >
