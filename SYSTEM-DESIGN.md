@@ -10,8 +10,6 @@
 6. [Dificulty](#dificulty)
 7. [Conclusion](#conclusion)
 
----
-
 ## Overview
 
 ### Project Description
@@ -36,8 +34,6 @@ A collaborative workspace platform built with Next.js, featuring messaging, rich
 - **Cursor Pagination**: Efficient data loading for large datasets
 - **Virtualization**: TanStack Virtual for rendering large lists
 
----
-
 ## Architecture
 
 ### Separation of Concerns
@@ -56,8 +52,6 @@ A collaborative workspace platform built with Next.js, featuring messaging, rich
 
 - **Location**: `app/api/`, `prisma/`
 - **Purpose**: Database operations, API endpoints
-
----
 
 ## Database Design
 
@@ -291,8 +285,6 @@ enum MessageType {
 - `Space.inviteCode` - Unique join codes
 - `SpaceMember.[spaceId, userId]` - No duplicate memberships
 
----
-
 ## API Design
 
 ### RESTful Endpoints
@@ -354,8 +346,6 @@ GET /api/spaces/:id/messages?cursor=clh7xyz&limit=50&direction=before
 - **limit**: Max items per page (capped at 100)
 - **hasMore**: Boolean indicating more data exists
 - **totalCount**: Only included on first request
-
----
 
 ### Virtualization Strategy
 
@@ -428,8 +418,6 @@ npx prisma db push
 npx prisma migrate deploy
 ```
 
---
-
 ## Future Enhancements
 
 ### Scalability Plans
@@ -441,7 +429,7 @@ npx prisma migrate deploy
 
 ## Dificulty
 
-1. The group chat feature doesn't work well due to reversed [https://github.com/TanStack/virtual/discussions/195](virtualization).
+1. The group chat feature doesn't work well due to [reversed virtualization](https://github.com/TanStack/virtual/discussions/195).
 2. Missing real-time feature.
 
 ## Conclusion
