@@ -1,7 +1,7 @@
 'use client';
 
 import Header from '@/components/structure/Header';
-import MessageList2 from '@/features/MessageList2';
+import MessageList from '@/features/MessageList';
 
 export default function Page() {
   return (
@@ -9,7 +9,7 @@ export default function Page() {
       <Header />
       <main>
         <section>
-          <MessageList2 />
+          <MessageList />
         </section>
       </main>
     </div>
