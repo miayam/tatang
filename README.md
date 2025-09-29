@@ -23,7 +23,7 @@ Install all dependencies:
 $ pnpm run install
 ```
 
-Rename `.env.example` to `.env`.
+Rename `.env.example` to `.env`
 
 Initialize database:
 
