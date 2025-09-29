@@ -4,6 +4,8 @@ A dead simple chat app for bootcamp facilitators.
 
 ## 🌐 Live Demo
 
+https://tatang-two.vercel.app
+
 ## 🛸 Tech Stack
 
 - Next.js
