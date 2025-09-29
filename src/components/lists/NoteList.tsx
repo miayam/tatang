@@ -6,6 +6,10 @@ import type { UseNoteList } from '@/hooks/useNoteList';
 type INoteList = UseNoteList;
 
 export default function NoteList({ data, pathname, params }: INoteList) {
+  if (!params.id) {
+    return null;
+  }
+
   return (
     <div className='max-w-[calc(100vw-25rem)] p-4 pt-0'>
       <div className='flex overflow-x-auto scrollbar-hide gap-2'>
