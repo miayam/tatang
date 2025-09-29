@@ -4,7 +4,7 @@ A dead simple chat app for bootcamp facilitators.
 
 ## 🌐 Live Demo
 
-https://tatang-two.vercel.app
+https://tatangs.netlify.app
 
 ## 🛸 Tech Stack
 
