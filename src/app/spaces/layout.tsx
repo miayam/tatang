@@ -4,6 +4,9 @@ import { Toaster } from 'react-hot-toast';
 
 import { queryClient } from '@/lib/queryClient';
 
+import Default from '@/components/templates/Default';
+import Sidebar from '@/components/structure/Sidebar';
+
 export default function RootLayout({
   children,
 }: {
@@ -11,7 +14,7 @@ export default function RootLayout({
 }) {
   return (
     <QueryClientProvider client={queryClient}>
-      {children}
+      <Default sidebar={<Sidebar />}>{children}</Default>
       <Toaster />
     </QueryClientProvider>
   );
