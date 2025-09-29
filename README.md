@@ -1,3 +1,48 @@
 # Tatang
 
-A dead simple chat app for bootcamp facilitators
+A dead simple chat app for bootcamp facilitators.
+
+## 🌐 Live Demo
+
+## 🛸 Tech Stack
+
+- Next.js
+- Tailwind CSS
+- Postgres
+- Prisma
+- Tanstack Virtual
+- Tanstack Query
+
+## 🔩 Development
+
+Install all dependencies:
+
+```sh
+$ pnpm run install
+```
+
+Rename `.env.example` to `.env`.
+
+Initialize database:
+
+```sh
+$ pnpm run db
+```
+
+Populate database with users:
+
+```sh
+$ pnpm run seed:user
+```
+
+Run the app in development mode:
+
+```sh
+$ pnpm run dev
+```
+
+Open `http://localhost:3000`
+
+## License
+
+MIT
