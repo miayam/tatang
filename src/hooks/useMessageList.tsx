@@ -1,18 +1,22 @@
 import { useInfiniteQuery } from '@tanstack/react-query';
 import { useVirtualizer } from '@tanstack/react-virtual';
 import { useParams } from 'next/navigation';
-import { useCallback, useEffect, useLayoutEffect, useRef } from 'react';
+import { useCallback, useEffect, useRef } from 'react';
 
 import { getMessages } from '@/lib/api';
-import useKeepBottomDistance from '@/hooks/useKeepBottomDistance';
+import useCreateMessage from '@/hooks/useCreateMessage';
 
 export default function useMessageList() {
   const params = useParams();
+  const parentRef = useRef<HTMLDivElement | null>(null);
+  const isInitialLoadRef = useRef(true);
 
-  // The scrollable element for your list
-  const parentRef = useRef(null);
+  const scrollMetaRef = useRef<{
+    prevScrollHeight: number;
+    prevScrollTop: number;
+  } | null>(null);
 
-  const { status, data, refetch, isFetchingNextPage, fetchNextPage } =
+  const { data, fetchNextPage, isFetchingNextPage, hasNextPage, isSuccess } =
     useInfiniteQuery({
       queryKey: [`messages-${params?.id}`],
       queryFn: (ctx) =>
@@ -21,75 +25,74 @@ export default function useMessageList() {
       initialPageParam: undefined,
     });
 
-  const allRows = data
-    ? data.pages
-        .flatMap((d) => d.messages)
+  const items = data
+    ? data?.pages
+        .flatMap((page) => page.messages)
         .sort(
           (a, b) =>
             new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime()
         )
     : [];
 
-  console.log(allRows, data);
-
-  // The virtualizer
   const rowVirtualizer = useVirtualizer({
-    count: allRows.length,
+    count: items.length,
     getScrollElement: () => parentRef.current,
     estimateSize: () => 100,
-    getItemKey: useCallback((index: number) => allRows[index]?.id, [allRows]),
-    onChange: (...args) => {
-      onChange(...args);
-    },
   });
 
-  const { onChange, keepBottomDistance } =
-    useKeepBottomDistance(rowVirtualizer);
+  const createMessageProps = useCreateMessage(rowVirtualizer, items);
 
-  // auto load more when component mounted
-  const autoLoadedDataRef = useRef(false);
+  const loadMore = useCallback(async () => {
+    if (isFetchingNextPage || !hasNextPage || !parentRef.current) return;
+
+    const el = parentRef.current;
+
+    scrollMetaRef.current = {
+      prevScrollHeight: el.scrollHeight,
+      prevScrollTop: el.scrollTop,
+    };
+
+    await fetchNextPage();
+  }, [hasNextPage, fetchNextPage, isFetchingNextPage]);
+
   useEffect(() => {
-    if (autoLoadedDataRef.current) return;
-    autoLoadedDataRef.current = true;
-    fetchNextPage();
-  }, [fetchNextPage]);
+    const el = parentRef.current;
+    if (!el) return;
 
-  const autoScrolledToBottomRef = useRef(false);
-
-  // load more when top reached
-  const [firstItem] = rowVirtualizer.getVirtualItems();
-  useEffect(() => {
-    if (!autoScrolledToBottomRef.current) return;
-    if (firstItem?.index === 0) fetchNextPage();
-  }, [firstItem]);
-
-  // scroll to bottom when initial data loaded
-  useLayoutEffect(() => {
-    console.log('debug');
-    if (allRows.length === 0 || autoScrolledToBottomRef.current) return;
-    rowVirtualizer.scrollToIndex(allRows.length - 1, { align: 'end' });
-    setTimeout(() => {
-      autoScrolledToBottomRef.current = true;
-    }, 100);
-  }, [allRows.length, rowVirtualizer]);
-
-  // keep bottom distance when data length changed
-  const prevDataLenghtRef = useRef(allRows.length);
-  useLayoutEffect(() => {
-    if (allRows.length > prevDataLenghtRef.current) {
-      keepBottomDistance();
+    if (isInitialLoadRef.current && isSuccess && items.length > 0) {
+      el.scrollTop = el.scrollHeight;
+      isInitialLoadRef.current = false;
+      return;
     }
-    prevDataLenghtRef.current = allRows.length;
-  }, [allRows.length, keepBottomDistance]);
+
+    const meta = scrollMetaRef.current;
+    if (meta) {
+      el.scrollTop =
+        el.scrollHeight - meta.prevScrollHeight + meta.prevScrollTop;
+      scrollMetaRef.current = null;
+    }
+  }, [items.length, isSuccess]);
+
+  useEffect(() => {
+    const el = parentRef.current;
+    if (!el) return;
+
+    const onScroll = () => {
+      if (el.scrollTop <= 30 && !isFetchingNextPage && hasNextPage) {
+        loadMore();
+      }
+    };
+
+    el.addEventListener('scroll', onScroll);
+    return () => el.removeEventListener('scroll', onScroll);
+  }, [loadMore, isFetchingNextPage, hasNextPage]);
 
   return {
-    params,
-    status,
+    items,
     parentRef,
     rowVirtualizer,
     isFetchingNextPage,
-    allRows,
-    refetch,
+    createMessageProps,
   };
 }
 

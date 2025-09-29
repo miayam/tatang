@@ -1,29 +1,21 @@
-import { UseMessageList } from '@/hooks/useMessageList';
-
-import Skeleton from '@/components/indicators/Skeleton';
+import type { UseMessageList } from '@/hooks/useMessageList';
+import CreateMessage from '@/components/forms/CreateMessage';
 
 type IMessageList = UseMessageList;
 
 export default function MessageList({
-  status,
+  items,
   parentRef,
-  params,
-  refetch,
   rowVirtualizer,
-  allRows,
   isFetchingNextPage,
+  createMessageProps,
 }: IMessageList) {
   return (
-    <div>
+    <div className='p-4'>
       <div
-        key={params.id?.toString()}
         ref={parentRef}
-        className='flex flex-col justify-end'
-        style={{
-          width: '400px',
-          height: '70vh',
-          overflow: 'auto', // Make it scroll!
-        }}
+        className='h-[55vh] w-full max-w-2xl overflow-auto flex flex-col justify-end  m-auto'
+        style={{ position: 'relative' }}
       >
         <div
           style={{
@@ -32,37 +24,35 @@ export default function MessageList({
             position: 'relative',
           }}
         >
-          {isFetchingNextPage ? <Skeleton /> : null}
-          {rowVirtualizer.getVirtualItems().map((virtualItem) => {
-            return (
-              <div
-                key={virtualItem.key || virtualItem.index}
-                data-index={virtualItem.index}
-                ref={rowVirtualizer.measureElement}
-                style={{
-                  position: 'absolute',
-                  top: 0,
-                  left: 0,
-                  minHeight: '100px',
-                  width: '100%',
-                  transform: `translateY(${virtualItem.start}px)`,
-                  borderBottom: '1px solid red',
-                }}
-              >
-                {allRows[virtualItem.index]?.content}
+          {isFetchingNextPage && (
+            <div className='absolute top-0 left-0 w-full text-center text-sm text-gray-400 py-1'>
+              Loading...
+            </div>
+          )}
+
+          {rowVirtualizer.getVirtualItems().map((virtualRow) => (
+            <div
+              key={virtualRow.key}
+              data-index={virtualRow.index}
+              ref={rowVirtualizer.measureElement}
+              className='flex'
+              style={{
+                position: 'absolute',
+                width: '100%',
+                height: `${virtualRow.size}px`,
+                transform: `translateY(${virtualRow.start}px)`,
+                padding: '4px',
+                boxSizing: 'border-box',
+              }}
+            >
+              <div className='bg-gray-800 text-white w-2/3 h-full p-4 rounded-md'>
+                {items[virtualRow.index]?.content}
               </div>
-            );
-          })}
+            </div>
+          ))}
         </div>
       </div>
-
-      <button
-        type='button'
-        className='group relative cursor-pointer  flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-gray-900 hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-700 disabled:opacity-50 disabled:cursor-not-allowed'
-        onClick={() => refetch()}
-      >
-        Refresh {JSON.stringify(status)}
-      </button>
+      <CreateMessage {...createMessageProps} />
     </div>
   );
 }

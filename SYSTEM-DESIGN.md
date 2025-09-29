@@ -7,6 +7,8 @@
 3. [Database Design](#database-design)
 4. [API Design](#api-design)
 5. [Performance Optimizations](#performance-optimizations)
+6. [Dificulty](#dificulty)
+7. [Conclusion](#conclusion)
 
 ---
 
@@ -437,6 +439,11 @@ npx prisma migrate deploy
 3. **Redis Caching**: Cache frequently accessed data
 4. **Message Queues**: Background job processing
 
+## Dificulty
+
+1. The group chat feature doesn't work well due to reversed [https://github.com/TanStack/virtual/discussions/195](virtualization).
+2. Missing real-time feature.
+
 ## Conclusion
 
 This system design emphasizes:
@@ -444,4 +451,3 @@ This system design emphasizes:
 - **Clean Architecture**: Separation of UI, business logic, and data layers
 - **Performance**: Virtualization and cursor pagination for large datasets
 - **Scalability**: Efficient database design with proper indexing
-- **Developer Experience**: Type-safe APIs, clear patterns, maintainable code
