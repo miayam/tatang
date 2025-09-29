@@ -12,6 +12,19 @@ export async function getSpaces(cursor: string | undefined, limit: number) {
   return data;
 }
 
+export async function getNotes(spaceId: string, limit: number) {
+  const params = new URLSearchParams({
+    limit: limit.toString(),
+  });
+
+  const response = await fetch(
+    `/api/spaces/${spaceId}/notes/?${params.toString()}`
+  );
+
+  const data = await response.json();
+  return data;
+}
+
 export async function getMessages(
   cursor: string | undefined,
   spaceId: string,

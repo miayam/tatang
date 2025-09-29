@@ -5,6 +5,8 @@ import { useParams, useRouter } from 'next/navigation';
 import { useCallback, useEffect, useState } from 'react';
 import toast from 'react-hot-toast';
 
+import { queryClient } from '@/lib/queryClient';
+
 export default function useEditNote() {
   const params = useParams();
   const router = useRouter();
@@ -67,6 +69,11 @@ export default function useEditNote() {
     } as any);
 
     const data = await asyncMutation.json();
+
+    queryClient.invalidateQueries({
+      queryKey: ['notes'],
+      refetchType: 'active',
+    });
 
     router.push(`/spaces/${params.id}/notes/${data.note.id}`);
     toast.success('🚀 Changes saved and live!');

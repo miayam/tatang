@@ -141,7 +141,7 @@ export default function MessageList2() {
               }}
             >
               <div className='bg-gray-800 text-white w-2/3 h-full p-4 rounded-md'>
-                {items[virtualRow.index].content}
+                {items[virtualRow.index]?.content}
               </div>
             </div>
           ))}

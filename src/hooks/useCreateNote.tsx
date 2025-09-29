@@ -6,6 +6,8 @@ import { useParams, useRouter } from 'next/navigation';
 import { useCallback, useState } from 'react';
 import toast from 'react-hot-toast';
 
+import { queryClient } from '@/lib/queryClient';
+
 export default function useCreateNote() {
   const params = useParams();
   const router = useRouter();
@@ -40,6 +42,11 @@ export default function useCreateNote() {
     } as any);
 
     const data = await asyncMutation.json();
+
+    queryClient.invalidateQueries({
+      queryKey: ['notes'],
+      refetchType: 'active',
+    });
 
     toast.success('✨ Note published successfully!');
     router.push(`/spaces/${params.id}/notes/${data.note.id}`);

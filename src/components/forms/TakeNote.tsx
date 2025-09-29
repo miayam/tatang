@@ -24,7 +24,7 @@ export default function TakeNote({
     <div>
       <div
         id='cta'
-        className='fixed min-w-2xs right-0 top-[7rem] flex gap-4 z-10'
+        className='fixed min-w-2xs right-0 top-[9rem] flex gap-4 z-10'
       >
         <div className='w-full flex gap-4 justify-end pr-8'>
           <button
