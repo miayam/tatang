@@ -45,6 +45,10 @@ $ pnpm run dev
 
 Open `http://localhost:3000`
 
+## System Design
+
+[Docs](https://github.com/miayam/tatang/blob/main/SYSTEM-DESIGN.md)
+
 ## License
 
 MIT
