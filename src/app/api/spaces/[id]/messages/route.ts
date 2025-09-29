@@ -5,9 +5,11 @@ import { getSession } from '@/lib/session';
 
 const prisma = new PrismaClient();
 
+type tParams = Promise<{ id: string }>;
+
 export async function GET(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: tParams }
 ) {
   try {
     // Check authentication
@@ -214,7 +216,7 @@ async function getMessageCount(
 
 export async function POST(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: tParams }
 ) {
   try {
     // Check authentication

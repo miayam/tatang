@@ -5,9 +5,11 @@ import { getSession } from '@/lib/session';
 
 const prisma = new PrismaClient();
 
+type tParams = Promise<{ id: string; noteId: string }>;
+
 export async function GET(
   request: NextRequest,
-  { params }: { params: { id: string; noteId: string } }
+  { params }: { params: tParams }
 ) {
   try {
     const session = await getSession();
@@ -78,7 +80,7 @@ export async function GET(
 
 export async function PATCH(
   request: NextRequest,
-  { params }: { params: { id: string; noteId: string } }
+  { params }: { params: tParams }
 ) {
   try {
     const session = await getSession();
@@ -90,7 +92,7 @@ export async function PATCH(
       );
     }
 
-    const { id: spaceId, noteId } = params;
+    const { id: spaceId, noteId } = await params;
     const body = await request.json();
     const { title, content, isPinned } = body;
 
@@ -207,7 +209,7 @@ export async function PATCH(
 
 export async function DELETE(
   request: NextRequest,
-  { params }: { params: { id: string; noteId: string } }
+  { params }: { params: tParams }
 ) {
   try {
     const session = await getSession();
